@@ -3,6 +3,11 @@ package com.example.filmescorroutines
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainViewModel(private val repository: MainRepository) : ViewModel() {
 
@@ -11,6 +16,16 @@ class MainViewModel(private val repository: MainRepository) : ViewModel() {
     fun getFilmes() {
         repository.getFilmes { filmes ->
             filmesLiveData.postValue(filmes)
+        }
+    }
+
+    fun getFilmeCoroutine() {
+        CoroutineScope(Dispatchers.Main).launch {
+            val filmes = withContext(Dispatchers.Default) {
+                repository.getFilmeCouroutine()
+            }
+            filmesLiveData.value = filmes
+
         }
     }
 

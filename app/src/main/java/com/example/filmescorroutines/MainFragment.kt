@@ -42,6 +42,6 @@ class MainFragment : Fragment() {
             }
         })
 
-        viewModel.getFilmes()
+        viewModel.getFilmeCoroutine()
     }
 }
